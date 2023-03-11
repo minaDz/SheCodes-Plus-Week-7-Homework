@@ -25,6 +25,7 @@ function displayTemperature(response){
     date.innerHTML= displayDate(response.data.time*1000);
     icon.setAttribute("src",response.data.condition.icon_url);
     icon.setAttribute("alt",response.data.condition.description);
+    celciusTemperature =response.data.temperature.current;
 }
 
 function search(city){
@@ -38,8 +39,34 @@ function handelSubmit(event){
     event.preventDefault();
     let input = document.querySelector("#city-input");
     search(input.value);
-    console.log(input.value);
 }
-search("New York");
+
+function displayFahrenheit(event){
+    event.preventDefault();
+    fahrenheitLink.classList.add("active");
+    celsiusLink.classList.remove("active");
+    let temperature = document.querySelector("#temperature");
+    temperature.innerHTML = Math.round((celciusTemperature*9)/5+32);
+}
+
+function displayCelsius(event){
+    event.preventDefault();
+    celsiusLink.classList.add("active");
+    fahrenheitLink.classList.remove("active");
+    let temperature = document.querySelector("#temperature");
+    temperature.innerHTML=Math.round(celciusTemperature);
+}
+
+
+let celciusTemperature = null;
+
 let form = document.querySelector("#search-form");
 form.addEventListener("submit",handelSubmit);
+
+let fahrenheitLink = document.querySelector("#fahrenheitLink");
+fahrenheitLink.addEventListener("click",displayFahrenheit);
+
+let celsiusLink = document.querySelector("#celsiusLink");
+celsiusLink.addEventListener("click",displayCelsius);
+
+search("Bushehr");
